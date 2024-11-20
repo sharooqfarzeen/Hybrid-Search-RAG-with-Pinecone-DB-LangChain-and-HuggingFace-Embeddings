@@ -1,0 +1,12 @@
+streamlit
+python-dotenv
+langchain
+PyPDF2
+langchain-text-splitters   
+langchain-community
+pinecone-client 
+pinecone-text 
+pinecone-notebooks 
+langchain-huggingface 
+sentence-transformers 
+tf-keras
