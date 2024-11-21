@@ -8,7 +8,7 @@ from create_db import create_pinecone_db
 from chat import get_response
 from get_api import get_api
 
-os.environ["TF_ENABLE_ONEDNN_OPTS"] = 0
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
 def main():
     
