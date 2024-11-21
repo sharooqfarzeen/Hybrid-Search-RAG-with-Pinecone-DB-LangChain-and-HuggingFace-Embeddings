@@ -6,11 +6,15 @@ from pinecone_text.sparse import BM25Encoder
 from dotenv import load_dotenv
 import os
 
+import nltk
+
 load_dotenv()
 
 api_key = os.getenv("PINECONE_API_KEY")
 
 def create_pinecone_db(chunks, embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")):
+
+    nltk.download('punkt_tab')
     
     index_name = "hybrid-search-langchain-pinecone"
 
