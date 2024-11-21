@@ -3,23 +3,33 @@ from dotenv import load_dotenv
 
 import streamlit as st
 
-import google.generativeai as genai
-
 from preprocessing import get_text, get_chunks
 from create_db import create_pinecone_db
 from chat import get_response
+from get_api import get_api
 
-# Fetching API Key
-load_dotenv()
-api_key = os.getenv("GOOGLE_API_KEY")
-genai.configure(api_key=api_key)
 
 def main():
     
     # Streamlit app
 
     # Title
-    st.set_page_config(page_title="Chat with PDF")
+    st.set_page_config(page_title="Hybrid Search RAG with Pinecone DB")
+
+    # Fetching API Key
+    load_dotenv()
+
+    if "HF_TOKEN" not in st.session_state or "OPENAI_API_KEY" not in st.session_state or "PINECONE_API_KEY" not in st.session_state:
+        if "HF_TOKEN" not in os.environ or "OPENAI_API_KEY" not in os.environ or "PINECONE_API_KEY" not in os.environ:
+            get_api()
+        else:
+            st.session_state["HF_TOKEN"] = os.environ["HF_TOKEN"]
+            st.session_state["OPENAI_API_KEY"] = os.environ["OPENAI_API_KEY"]
+            st.session_state["PINECONE_API_KEY"] = os.environ["PINECONE_API_KEY"]
+    else:
+        os.environ["HF_TOKEN"] = st.session_state["HF_TOKEN"]
+        os.environ["OPENAI_API_KEY"] = st.session_state["OPENAI_API_KEY"]
+        os.environ["PINECONE_API_KEY"] = st.session_state["PINECONE_API_KEY"]
 
     # Header
     st.title("Current Thread")
@@ -72,25 +82,32 @@ def main():
         
             # If prompt has text
             if user_question:
-                # Display user message in chat message container
-                st.chat_message("user").markdown(user_question)
-                # Add user message to chat history
-                st.session_state.messages.append({"role": "user", "content": user_question})
-                # Add user message to chat context for model
-                st.session_state.chat_context.append({"role": "user", "parts": user_question})
-            
+                if st.session_state.db:
+                    # Display user message in chat message container
+                    st.chat_message("user").markdown(user_question)
+                    # Add user message to chat history
+                    st.session_state.messages.append({"role": "user", "content": user_question})
+                    # Add user message to chat context for model
+                    st.session_state.chat_context.append({"role": "user", "parts": user_question})
                 
-                # Doing similarity search to find context from our vecctor store
-                context = st.session_state.db.invoke(user_question)            
-                # Querying LLM for answer
-                response = get_response(context, user_question, st.session_state.chat_context)
-                # Display assistant response in chat message container
-                st.chat_message("assistant").markdown(response)
+                    
+                    # Doing similarity search to find context from our vecctor store
+                    context = st.session_state.db.invoke(user_question)            
+                    # Querying LLM for answer
+                    response = get_response(context, user_question, st.session_state.chat_context, st.session_state["OPENAI_API_KEY"])
+                    # Display assistant response in chat message container
+                    st.chat_message("assistant").markdown(response)
 
-                # Add assistant response to chat history
-                st.session_state.messages.append({"role": "assistant", "content": response})
-                # Add assistant response to chat context for model
-                st.session_state.chat_context.append({"role": "model", "parts": response})
+                    # Add assistant response to chat history
+                    st.session_state.messages.append({"role": "assistant", "content": response})
+                    # Add assistant response to chat context for model
+                    st.session_state.chat_context.append({"role": "model", "parts": response})
+                else:
+                    st.chat_message("assistant").write("Please upload documents.")
+
+                    # Add assistant response to chat history
+                    st.session_state.messages.append({"role": "assistant", "content": "Please upload documents."})
+
 
 if __name__ == "__main__":
     main()

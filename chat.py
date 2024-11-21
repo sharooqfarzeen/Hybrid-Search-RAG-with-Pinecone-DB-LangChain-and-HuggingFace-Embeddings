@@ -1,19 +1,8 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
 
-import os
-from dotenv import load_dotenv
-
-import google.generativeai as genai
-
-# Fetching API Key
-load_dotenv()
-api_key = os.getenv("GOOGLE_API_KEY")
-genai.configure(api_key=api_key)
-
-
-def get_response(context, user_question, chat_history):
+def get_response(context, user_question, chat_history, api_key):
     prompt_template = """
     You are provided with context extracted from multiple documents. The documents were uploaded as pdf documents. All of the text
     in the pdf were clubbed together and vectorized. 
@@ -41,7 +30,7 @@ def get_response(context, user_question, chat_history):
     Answer:
     """
     # Setting model to be used
-    model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3, api_key=api_key)
+    model = ChatOpenAI(model="gpt-4o-mini", temperature=0.3, api_key=api_key)
     
     prompt = ChatPromptTemplate.from_template(template=prompt_template)
     
