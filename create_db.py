@@ -9,7 +9,7 @@ import streamlit as st
 import nltk
 
 def create_pinecone_db(chunks):
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2", api_key=st.session_state["HF_TOKEN"])
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
     nltk.download('punkt_tab')
     
