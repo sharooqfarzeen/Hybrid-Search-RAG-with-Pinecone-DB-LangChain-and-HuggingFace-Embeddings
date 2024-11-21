@@ -15,7 +15,7 @@ def get_api():
     
 
     if st.button("Submit"):
-        if openai and pine and hf:
+        if openai and pine:
             st.session_state["OPENAI_API_KEY"] = openai
             st.session_state["PINECONE_API_KEY"] = pine
             # st.session_state["HF_TOKEN"] = hf
