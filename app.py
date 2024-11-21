@@ -31,7 +31,7 @@ def main():
     if ("OPENAI_API_KEY" in st.session_state) and ("PINECONE_API_KEY" in st.session_state):
 
         # Header
-        st.title("Current Thread")
+        st.title("Hybrid Search RAG with Pinecone DB")
 
         # Initializing chat history
         if "messages" not in st.session_state:
