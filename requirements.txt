@@ -10,3 +10,4 @@ pinecone-notebooks
 langchain-huggingface 
 sentence-transformers 
 tf-keras
+langchain-openai
