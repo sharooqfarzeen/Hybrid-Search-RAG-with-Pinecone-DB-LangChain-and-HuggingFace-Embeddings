@@ -26,10 +26,6 @@ def main():
             st.session_state["HF_TOKEN"] = os.environ["HF_TOKEN"]
             st.session_state["OPENAI_API_KEY"] = os.environ["OPENAI_API_KEY"]
             st.session_state["PINECONE_API_KEY"] = os.environ["PINECONE_API_KEY"]
-    else:
-        os.environ["HF_TOKEN"] = st.session_state["HF_TOKEN"]
-        os.environ["OPENAI_API_KEY"] = st.session_state["OPENAI_API_KEY"]
-        os.environ["PINECONE_API_KEY"] = st.session_state["PINECONE_API_KEY"]
 
     if ("HF_TOKEN" in st.session_state) and ("OPENAI_API_KEY" in st.session_state) and ("PINECONE_API_KEY" in st.session_state):
 

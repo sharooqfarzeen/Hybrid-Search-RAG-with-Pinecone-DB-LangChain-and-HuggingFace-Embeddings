@@ -3,23 +3,19 @@ from pinecone import Pinecone, ServerlessSpec
 from langchain_huggingface import HuggingFaceEmbeddings
 from pinecone_text.sparse import BM25Encoder
 
-from dotenv import load_dotenv
 import os
+import streamlit as st
 
 import nltk
 
-load_dotenv()
-
-api_key = os.getenv("PINECONE_API_KEY")
-
-def create_pinecone_db(chunks, embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")):
+def create_pinecone_db(chunks, embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2"), api_key=st.session_state["HF_TOKEN"]):
 
     nltk.download('punkt_tab')
     
     index_name = "hybrid-search-langchain-pinecone"
 
     # initialize Pinecone client
-    pc = Pinecone(api_key=api_key)
+    pc = Pinecone(api_key=st.session_state["PINECONE_API_KEY"])
 
     # create the index
     if index_name not in pc.list_indexes().names():

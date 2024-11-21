@@ -19,9 +19,6 @@ def get_api():
             st.session_state["OPENAI_API_KEY"] = openai
             st.session_state["PINECONE_API_KEY"] = pine
             st.session_state["HF_TOKEN"] = hf
-            os.environ["HF_TOKEN"] = st.session_state["HF_TOKEN"]
-            os.environ["OPENAI_API_KEY"] = st.session_state["OPENAI_API_KEY"]
-            os.environ["PINECONE_API_KEY"] = st.session_state["PINECONE_API_KEY"]
             st.success("API key set successfully!")
             st.rerun()
         else:
