@@ -8,6 +8,7 @@ from create_db import create_pinecone_db
 from chat import get_response
 from get_api import get_api
 
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = 0
 
 def main():
     
@@ -19,15 +20,15 @@ def main():
     # Fetching API Key
     load_dotenv()
 
-    if ("HF_TOKEN" not in st.session_state) or ("OPENAI_API_KEY" not in st.session_state) or ("PINECONE_API_KEY" not in st.session_state):
-        if "HF_TOKEN" not in os.environ or "OPENAI_API_KEY" not in os.environ or "PINECONE_API_KEY" not in os.environ:
+    if ("OPENAI_API_KEY" not in st.session_state) or ("PINECONE_API_KEY" not in st.session_state):
+        if "OPENAI_API_KEY" not in os.environ or "PINECONE_API_KEY" not in os.environ:
             get_api()
         else:
-            st.session_state["HF_TOKEN"] = os.environ["HF_TOKEN"]
+            # st.session_state["HF_TOKEN"] = os.environ["HF_TOKEN"]
             st.session_state["OPENAI_API_KEY"] = os.environ["OPENAI_API_KEY"]
             st.session_state["PINECONE_API_KEY"] = os.environ["PINECONE_API_KEY"]
 
-    if ("HF_TOKEN" in st.session_state) and ("OPENAI_API_KEY" in st.session_state) and ("PINECONE_API_KEY" in st.session_state):
+    if ("OPENAI_API_KEY" in st.session_state) and ("PINECONE_API_KEY" in st.session_state):
 
         # Header
         st.title("Current Thread")
