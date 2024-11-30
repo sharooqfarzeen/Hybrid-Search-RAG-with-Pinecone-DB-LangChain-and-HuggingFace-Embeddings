@@ -75,9 +75,9 @@ def main():
                         # Loading the created vector store on to session_state
                         st.session_state.db = db
                         # Display user message in chat message container
-                        st.chat_message("assistant").markdown(f"Upload Successful. You can now Chat with the PDF(s).")
+                        st.chat_message("assistant").markdown(f"Hybrid Database creation successful. You can now Chat with the PDF(s).")
                         # Add user message to chat history
-                        st.session_state.messages.append({"role": "assistant", "content": f"Upload Successful. You can now Chat with the PDF(s)."})
+                        st.session_state.messages.append({"role": "assistant", "content": f"Hybrid Database creation successful. You can now Chat with the PDF(s)."})
             
                 # If prompt has text
                 if user_question:
