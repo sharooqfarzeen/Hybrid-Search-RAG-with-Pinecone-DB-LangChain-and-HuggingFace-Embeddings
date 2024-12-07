@@ -1,4 +1,4 @@
-## [Try the app on streamlit](https://hybrid-search-rag-with-pinecone-db.streamlit.app/)
+## [Try the app on Streamlit](https://hybrid-search-rag-with-pinecone-db.streamlit.app/)
 
 **OR**
 
