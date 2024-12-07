@@ -18,7 +18,7 @@ def main():
     st.set_page_config(page_title="Hybrid Search RAG with Pinecone DB")
 
     # Fetching API Key
-    load_dotenv()
+    load_dotenv(override=True)
 
     if ("OPENAI_API_KEY" not in st.session_state) or ("PINECONE_API_KEY" not in st.session_state):
         if "OPENAI_API_KEY" not in os.environ or "PINECONE_API_KEY" not in os.environ:
